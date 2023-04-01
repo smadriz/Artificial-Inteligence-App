@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Satisfacción Cursos TEC</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .course-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        .course-link {
+            text-decoration: none;
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            white-space: nowrap;
+        }
+        .courses {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .course {
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 5px;
+        }
+        .sentiment-bar {
+            display: flex;
+            height: 20px;
+            border: 1px solid #000;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .sentiment {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: bold;
+        }
+        .sentiment.positive {
+            background-color: #4caf50;
+        }
+        .sentiment.neutral {
+            background-color: #f0ad4e;
+        }
+        .sentiment.negative {
+            background-color: #d9534f;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Satisfacción Cursos TEC</h1>
+        <div class="course-links">
+            {% for course in courses %}
+                <a href="{{ url_for('course', course_id=course.id) }}" class="course-link">{{ course.name }}</a>
+            {% endfor %}
+        </div>
+        <div class="courses">
+            {% for course, sentiment in zip(courses, course_sentiments) %}
+            <div class="course">
+                <h2>{{ course.name }}</h2>
+                <div class="sentiment-bar">
+                    <div class="sentiment positive" style="width: {{ sentiment.positive }}%;">{{ sentiment.positive|round|int }}%</div>
+                    <div class="sentiment neutral" style="width: {{ sentiment.neutral }}%;">{{ sentiment.neutral|round|int }}%</div>
+                    <div class="sentiment negative" style="width: {{ sentiment.negative }}%;">{{ sentiment.negative|round|int }}%</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
